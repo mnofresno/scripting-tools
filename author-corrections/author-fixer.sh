@@ -152,14 +152,39 @@ if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
     exit 1
 fi
 
+# Muestra el resumen de los cambios que se realizarán
+echo "Este script realizará los siguientes cambios en todos los commits:"
+echo "  - Nombre del autor: 'Mariano Fresno' (se reemplazará cualquier otro nombre)"
+echo "  - Email del autor: 'mnofresno+github@gmail.com' (se reemplazará cualquier otro email)"
+echo ""
+echo "¿Estás seguro de que deseas continuar? (s/N) "
+read -r respuesta
+
+if [[ ! "$respuesta" =~ ^[Ss]$ ]]; then
+    echo "Operación cancelada."
+    exit 0
+fi
+
 # Prepara el comando git filter-repo
 FILTER_CMD="git filter-repo --commit-callback '
-    commit.author_email = b\"mnofresno+github@gmail.com\"
+    # Asegurarse de que el nombre sea exactamente \"Mariano Fresno\"
     commit.author_name = b\"Mariano Fresno\"
+    # Asegurarse de que el email sea exactamente \"mnofresno+github@gmail.com\"
+    commit.author_email = b\"mnofresno+github@gmail.com\"
     return commit
 ' --force"
 
 # Ejecuta el comando
 echo "Iniciando corrección de autores..."
 eval "$FILTER_CMD"
-echo "¡Corrección de autores completada!"
+
+# Verifica que los cambios se hayan aplicado correctamente
+echo ""
+echo "Verificando los cambios..."
+if git log --format='%an <%ae>' | grep -v "Mariano Fresno <mnofresno+github@gmail.com>" > /dev/null; then
+    echo "Error: Algunos commits no fueron actualizados correctamente."
+    exit 1
+else
+    echo "¡Corrección de autores completada exitosamente!"
+    echo "Todos los commits ahora tienen el autor 'Mariano Fresno <mnofresno+github@gmail.com>'"
+fi
