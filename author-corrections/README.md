@@ -4,11 +4,27 @@
 
 ## Características
 
-- **Corrección Automática**: Actualiza automáticamente el nombre y email del autor en todos los commits del repositorio.
+- **Corrección Automática**: Actualiza automáticamente el nombre y email del autor en todos los commits del repositorio usando `git filter-repo`.
 - **Autoinstalación**: Se instala automáticamente en `/usr/local/bin` la primera vez que se ejecuta.
 - **Autocompletado**: Incluye soporte para autocompletado de Bash para una mejor experiencia de usuario.
 - **Mensaje de Ayuda**: Proporciona una opción `-h` o `--help` para mostrar instrucciones detalladas de uso.
 - **Forzar Sobrescritura**: Permite forzar la sobrescritura de copias de seguridad existentes con la opción `-f` o `--force`.
+- **Verificación de Dependencias**: Verifica automáticamente que todas las dependencias necesarias estén instaladas.
+
+## Requisitos
+
+- **Git**: Git debe estar instalado en tu sistema.
+- **git-filter-repo**: Esta herramienta es necesaria para realizar las correcciones. Puedes instalarla usando uno de los siguientes métodos:
+  ```bash
+  # Usando pip (recomendado)
+  pip3 install git-filter-repo
+
+  # En sistemas basados en Debian/Ubuntu
+  sudo apt-get install git-filter-repo
+
+  # En macOS con Homebrew
+  brew install git-filter-repo
+  ```
 
 ## Instalación
 
@@ -72,11 +88,6 @@ El script está configurado para reemplazar la siguiente información:
 - Email correcto: `mnofresno+github@gmail.com`
 
 Para modificar estos valores, edita el script y actualiza las variables correspondientes.
-
-## Requisitos
-
-- **Bash Shell**: Asegúrate de tener un shell compatible con Bash.
-- **Git**: Git debe estar instalado en tu sistema para que el script funcione.
 
 ## Licencia
 
